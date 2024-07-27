@@ -23,6 +23,7 @@ export interface VDOMComponent {
   kind: 'component';
   props: object;
   component: Component<any>;
+  node: VDomNode | null;
   key: string;
 }
 
