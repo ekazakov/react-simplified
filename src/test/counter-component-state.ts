@@ -1,21 +1,8 @@
 import { cComp, cElm, cTxt } from "../virtual-dom.ts";
-import { renderDOM, updateComponent } from "../render.ts";
-import { getGlobalContext } from "../global-context.ts";
+import { renderDOM } from "../render.ts";
+import { useState } from "../hooks.ts";
 
 export const counterComponentStateTest = () => {
-  let _state = 0;
-
-  const useState = (initialState: number) => {
-    _state = _state ?? initialState;
-    const context = getGlobalContext();
-    const setState = (newState: number) => {
-      _state = newState;
-      updateComponent(context);
-    };
-
-    return [_state, setState] as const;
-  };
-
   const Counter = () => {
     const [counter, setCounter] = useState(0);
 
@@ -39,8 +26,12 @@ export const counterComponentStateTest = () => {
   };
 
   const App = () => {
-
-    return cElm("div", {}, [cComp(Counter, {})]);
+    return cElm("div", {}, [
+      cElm("h1", { key: "h1-1" }, [cTxt("Counter 1")]),
+      cComp(Counter, { key: "counter-1" }),
+      cElm("h1", { key: "h1-2" }, [cTxt("Counter 2")]),
+      cComp(Counter, { key: "counter-2" })
+    ]);
   };
 
   renderDOM("app", cComp(App, {}));

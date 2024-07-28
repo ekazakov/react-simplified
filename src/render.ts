@@ -126,14 +126,13 @@ export const renderElement = (node: VDomNode): HTMLElement | Text => {
 };
 
 export const callComponent = (node: VDOMComponent) => {
-  setGlobalContext({ currentNode: node });
+  setGlobalContext({ currentNode: node, hookPointer: 0 });
   node.node = node.component(node.props);
   setGlobalContext(null);
   return node.node;
 };
 
 export const updateComponent = (context: any) => {
-  console.log("nodesMap:", nodesMap);
   const componentNode = context?.currentNode;
   const elem = nodesMap.get(componentNode);
 
@@ -142,6 +141,5 @@ export const updateComponent = (context: any) => {
     callComponent(componentNode)
   );
 
-  console.log("diff:", diff.kind);
   applyUpdate(elem as HTMLElement, diff);
 };
