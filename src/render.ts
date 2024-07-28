@@ -1,10 +1,17 @@
 // https://itnext.io/creating-our-own-react-from-scratch-82dd6356676d
 
-import type { ChildUpdater, VDomNode, VDomNodeUpdater } from "./types";
+import type {
+  ChildUpdater,
+  VDOMComponent,
+  VDomNode,
+  VDomNodeUpdater
+} from "./types";
 import { createDiff } from "./diff.ts";
+import { setGlobalContext } from "./global-context.ts";
 
 let globalRoot: VDomNode | null = null;
 
+export const nodesMap = new Map<VDomNode, HTMLElement | Text>();
 
 export const renderDOM = (htmlId: string, rootNode: VDomNode) => {
   const elem = document.getElementById(htmlId);
@@ -35,7 +42,9 @@ export const applyUpdate = (
   if (diff.kind === "skip") return elem;
 
   if (diff.kind === "replace") {
-    elem.replaceWith(renderElement(diff.node));
+    const newElem = renderElement(diff.node);
+    elem.replaceWith(newElem);
+    nodesMap.set(diff.node, newElem);
     return elem;
   }
 
@@ -101,12 +110,38 @@ export const renderElement = (node: VDomNode): HTMLElement | Text => {
 
   if (node.kind === "component") {
     if (!node.node) {
-      node.node = node.component(node.props);
-      return renderElement(node.node);
+      // node.node = node.component(node.props);
+      callComponent(node);
+      const elem = renderElement(node.node!);
+      nodesMap.set(node, elem);
+      return elem;
     }
 
-    return renderElement(node.node);
+    const elem = renderElement(node.node);
+    nodesMap.set(node, elem);
+    return elem;
   }
 
   throw new Error(`Unknown node kind: ${(node as any)?.kind}`);
+};
+
+export const callComponent = (node: VDOMComponent) => {
+  setGlobalContext({ currentNode: node });
+  node.node = node.component(node.props);
+  setGlobalContext(null);
+  return node.node;
+};
+
+export const updateComponent = (context: any) => {
+  console.log("nodesMap:", nodesMap);
+  const componentNode = context?.currentNode;
+  const elem = nodesMap.get(componentNode);
+
+  const diff = createDiff(
+    context?.currentNode.node,
+    callComponent(componentNode)
+  );
+
+  console.log("diff:", diff.kind);
+  applyUpdate(elem as HTMLElement, diff);
 };
