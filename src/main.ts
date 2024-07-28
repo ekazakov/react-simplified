@@ -1,7 +1,9 @@
 // https://itnext.io/creating-our-own-react-from-scratch-82dd6356676d
 
 import "./style.css";
-import { cElm, cTxt } from "./virtual-dom.ts";
+import { counterElementTest } from "./test/counter-element.ts";
+
+import { cComp, cElm, cTxt } from "./virtual-dom.ts";
 import { renderDOM } from "./render.ts";
 
 // const App = () => {
@@ -15,24 +17,28 @@ import { renderDOM } from "./render.ts";
 //   ]);
 // };
 
-// testDiffing();
-
-const counterTest = () => {
+export const counterComponentTest = () => {
   let counter = 0;
+
   const increment = () => {
     counter++;
-    render();
-  };
-  const decrement = () => {
-    counter--;
-    render();
+    render(counter);
   };
 
-  const render = () => {
-    const node = cElm("div", { key: "counter" }, [
-      cElm("div", { key: "counter-label" }, [
-        cTxt(`Counter`),
-        cElm("span", { key: "counter-value" }, [cTxt(counter)])
+  const decrement = () => {
+    counter--;
+    render(counter);
+  };
+
+  const Value = ({ value }: { value: number }) => {
+    return cElm("span", {}, [cTxt(value)]);
+  };
+
+  const Counter = ({ value }: { value: number }) => {
+    return cElm("div", {}, [
+      cElm("div", {}, [
+        cTxt(`Counter: `),
+        cComp(Value, { key: "counter-value", value })
       ]),
       cElm("button", { key: "increment", onclick: increment }, [
         cTxt("Increment")
@@ -41,10 +47,15 @@ const counterTest = () => {
         cTxt("Decrement")
       ])
     ]);
-    renderDOM("app", node);
   };
 
-  render();
+  const render = (value: number) => {
+    renderDOM("app", cComp(Counter, { key: "app", value }));
+  };
+
+  render(counter);
 };
 
-counterTest();
+counterComponentTest();
+// testDiffing();
+// counterElementTest();

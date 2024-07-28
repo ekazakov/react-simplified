@@ -80,7 +80,7 @@ export const createDiff = (
   }
 
   const attUpdater: AttributesUpdater = {
-    remove: diffDeletdProps(newNode.props ?? {}, oldNode.props ?? {}),
+    remove: diffDeletedProps(newNode.props ?? {}, oldNode.props ?? {}),
     set: diffUpdateProps(newNode.props ?? {}, oldNode.props ?? {})
   };
 
@@ -148,7 +148,7 @@ const childrenDiff = (
   let firstUpdateKey = getNextUpdateKey(remainingOld, remainingNew);
 
   while (firstUpdateKey != null) {
-    // first remove all old childs before the update
+    // first remove all old children before the update
     removeUntilKey(operations, remainingOld, firstUpdateKey);
     // insert all new children before the update
     insertUntilKey(operations, remainingNew, firstUpdateKey);
@@ -161,10 +161,10 @@ const childrenDiff = (
     firstUpdateKey = getNextUpdateKey(remainingOld, remainingNew);
   }
 
-  // remove all remaing old childs after the last update
+  // remove all remaining old children after the last update
   removeUntilKey(operations, remainingOld, null);
 
-  // insert all remaing new childs after the last update
+  // insert all remaining new children after the last update
   insertUntilKey(operations, remainingNew, null);
 
   return operations;
@@ -193,7 +193,7 @@ const update = (
   children
 });
 
-export const diffDeletdProps = (
+export const diffDeletedProps = (
   newProps: VDOMAttributes,
   oldProps: VDOMAttributes
 ) => {

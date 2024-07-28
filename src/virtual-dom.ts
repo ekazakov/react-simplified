@@ -9,10 +9,10 @@ import type {
 
 const createElement = (
   tagname: string,
-  props: VDOMAttributes & { key: string },
+  props: VDOMAttributes & { key?: string },
   children?: VDomNode[]
 ): VDOMElement => {
-  const key = props.key;
+  const key = props.key ?? "-";
 
   // @ts-ignore
   delete props.key;
@@ -28,9 +28,9 @@ const createElement = (
 
 const createComponent = <P>(
   component: Component<P>,
-  props: object & { key: string } & { children?: VDomNode[] }
+  props: object & P & { key?: string } & { children?: VDomNode[] }
 ): VDOMComponent => {
-  const key = props.key;
+  const key = props.key ?? "-";
 
   // @ts-ignore
   delete props.key;
