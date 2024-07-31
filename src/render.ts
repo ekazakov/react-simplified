@@ -110,7 +110,6 @@ export const renderElement = (node: VDomNode): HTMLElement | Text => {
 
   if (node.kind === "component") {
     if (!node.node) {
-      // node.node = node.component(node.props);
       callComponent(node);
       const elem = renderElement(node.node!);
       nodesMap.set(node, elem);

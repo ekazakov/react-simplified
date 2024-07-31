@@ -42,8 +42,6 @@ export const createDiff = (
 
     if (_.isEqual(oldNode.props, newNode.props)) return skip();
 
-    // const node = newNode.component(newNode.props);
-    // newNode.node = node;
     const node = callComponent(newNode);
     return createDiff(oldNode.node, node);
   }
@@ -57,8 +55,6 @@ export const createDiff = (
   ) {
     oldNode.node = null;
     if (newNode.kind === "component") {
-      // const node = newNode.component(newNode.props);
-      // newNode.node = node;
       const node = callComponent(newNode);
       return replace(node);
     }
@@ -68,8 +64,6 @@ export const createDiff = (
 
   // replace with different component
   if (newNode.kind == "component") {
-    // const node = newNode.component(newNode.props);
-    // newNode.node = node;
     const node = callComponent(newNode);
     return { kind: "replace", node };
   }
