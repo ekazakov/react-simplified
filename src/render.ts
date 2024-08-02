@@ -8,6 +8,7 @@ import type {
 } from "./types";
 import { createDiff } from "./diff.ts";
 import { setGlobalContext } from "./global-context.ts";
+import { _effects } from "./hooks.ts";
 
 let globalRoot: VDomNode | null = null;
 
@@ -127,6 +128,13 @@ export const renderElement = (node: VDomNode): HTMLElement | Text => {
 export const callComponent = (node: VDOMComponent) => {
   setGlobalContext({ currentNode: node, hookPointer: 0 });
   node.node = node.component(node.props);
+  const { deps = [], prevDeps, callback } = _effects.get(node) ?? {};
+  const depsChanged = !deps.every((d: any, i: number) => d === prevDeps[i]);
+
+  if (callback && (depsChanged || !prevDeps)) {
+    callback();
+  }
+
   setGlobalContext(null);
   return node.node;
 };

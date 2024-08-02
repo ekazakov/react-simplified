@@ -1,7 +1,9 @@
 import { getGlobalContext } from "./global-context.ts";
 import { updateComponent } from "./render.ts";
+import { VDomNode } from "./types.ts";
 
-let _states: any[] = [];
+const _states: any[] = [];
+export const _effects = new Map<VDomNode, any>();
 
 export const useState = (initialState: number) => {
   const context = getGlobalContext();
@@ -15,4 +17,15 @@ export const useState = (initialState: number) => {
   };
 
   return [_states[index], setState] as const;
+};
+
+export const useEffect = (callback: () => void, deps: any[]) => {
+  const context = getGlobalContext();
+  const node = context.currentNode;
+
+  _effects.set(node, {
+    callback,
+    deps,
+    prevDeps: _effects.get(node)?.deps
+  });
 };
