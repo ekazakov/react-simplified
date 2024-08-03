@@ -1,6 +1,6 @@
-import { cComp, cElm, cTxt } from "../virtual-dom.ts";
-import { renderDOM } from "../render.ts";
-import { useState } from "../hooks.ts";
+import { cComp, cElm, cTxt } from "../framework/virtual-dom.ts";
+import { renderDOM } from "../framework/render.ts";
+import { useState } from "../framework/hooks.ts";
 
 export const counterComponentStateTest = () => {
   const Counter = () => {

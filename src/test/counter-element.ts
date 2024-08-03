@@ -1,5 +1,5 @@
-import { cElm, cTxt } from "../virtual-dom.ts";
-import { renderDOM } from "../render.ts";
+import { cElm, cTxt } from "../framework/virtual-dom.ts";
+import { renderDOM } from "../framework/render.ts";
 
 export const counterElementTest = () => {
   let counter = 0;

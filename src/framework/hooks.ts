@@ -2,8 +2,13 @@ import { getGlobalContext } from "./global-context.ts";
 import { updateComponent } from "./render.ts";
 import { VDomNode } from "./types.ts";
 
-const _states: any[] = [];
-export const _effects = new Map<VDomNode, any>();
+export let _states: any[] = [];
+export let _effects = new Map<VDomNode, any>();
+
+export const resetHooks = () => {
+  _states = [];
+  _effects = new Map<VDomNode, any>();
+}
 
 export const useState = (initialState: number) => {
   const context = getGlobalContext();

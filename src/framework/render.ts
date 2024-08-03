@@ -14,14 +14,16 @@ let globalRoot: VDomNode | null = null;
 
 export const nodesMap = new Map<VDomNode, HTMLElement | Text>();
 
+export const resetGlobalRootAndNodesMap = () => {
+  globalRoot = null;
+  nodesMap.clear();
+};
+
 export const renderDOM = (htmlId: string, rootNode: VDomNode) => {
   const elem = document.getElementById(htmlId);
   if (elem == null) {
     throw new Error("Container elem not found");
   }
-
-  // elem.innerHTML = "";
-  // elem.appendChild(renderElement(rootNode));
 
   if (globalRoot != null) {
     applyUpdate(

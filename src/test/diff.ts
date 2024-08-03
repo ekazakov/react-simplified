@@ -1,5 +1,5 @@
-import { cElm, cTxt } from "../virtual-dom.ts";
-import { createDiff } from "../diff.ts";
+import { cElm, cTxt } from "../framework/virtual-dom.ts";
+import { createDiff } from "../framework/diff.ts";
 
 export const testDiffing = () => {
   const node1_1 = cElm("article", { className: "main", key: "article-1" }, []);

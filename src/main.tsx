@@ -1,7 +1,18 @@
 // https://itnext.io/creating-our-own-react-from-scratch-82dd6356676d
 
 import "./style.css";
-import { counterComponentStateTest } from "./test/counter-component-state.ts";
+
+const App = () => <p>!</p>;
+
+const foo = () => (
+  <div>
+    <App x={1} />
+    <div>Foo</div>
+  </div>
+);
+
+foo();
+// import { counterComponentStateTest } from "./test/counter-component-state.ts";
 
 // const App = () => {
 //   return cElm("article", { className: "main", key: "article-1" }, [
@@ -17,4 +28,4 @@ import { counterComponentStateTest } from "./test/counter-component-state.ts";
 // counterComponentTest();
 // testDiffing();
 // counterElementTest();
-counterComponentStateTest()
+// counterComponentStateTest()
