@@ -19,7 +19,7 @@ export const resetGlobalRootAndNodesMap = () => {
   nodesMap.clear();
 };
 
-export const renderDOM = (htmlId: string, rootNode: VDomNode) => {
+export const renderDOM = (htmlId: string, rootNode: any) => {
   const elem = document.getElementById(htmlId);
   if (elem == null) {
     throw new Error("Container elem not found");

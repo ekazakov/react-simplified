@@ -40,7 +40,6 @@ describe.skip("warmup", () => {
           reject(error);
         }
       });
-      // element.value = "Hi";
       element.dispatchEvent(new InputEvent("input", { data: "Hii" }));
     });
   });

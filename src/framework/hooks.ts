@@ -8,7 +8,7 @@ export let _effects = new Map<VDomNode, any>();
 export const resetHooks = () => {
   _states = [];
   _effects = new Map<VDomNode, any>();
-}
+};
 
 export const useState = (initialState: number) => {
   const context = getGlobalContext();
@@ -16,6 +16,7 @@ export const useState = (initialState: number) => {
   context.hookPointer++;
   _states[index] = _states[index] ?? initialState;
 
+  // console.log("index:", index, "useState", _states[index]);
   const setState = (newState: number) => {
     _states[index] = newState;
     updateComponent(context);

@@ -2,16 +2,7 @@
 
 import "./style.css";
 
-const App = () => <p>!</p>;
 
-const foo = () => (
-  <div>
-    <App x={1} />
-    <div>Foo</div>
-  </div>
-);
-
-foo();
 // import { counterComponentStateTest } from "./test/counter-component-state.ts";
 
 // const App = () => {
